@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            margin: 0;
+            background-color: #1a120b; /* Pedra escura de castelo */
+            background-image: url('https://www.transparenttextures.com/patterns/dark-matter.png'); /* Textura de pedra */
+            color: #2b1d0e;
+            font-family: 'MedievalSharp', cursive;
+            }
+
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background-color: #3e2723; /* Madeira escura para combinar com as bordas */
+            background-image: url('https://www.transparenttextures.com/patterns/dark-matter.png');
+            border-bottom: 4px solid #dcb35c; /* Linha dourada de destaque */
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+        }
+
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            animation: swing 4s ease-in-out infinite alternate;
+            transform-origin: top center;
+        }
+
+        .top-bar-content {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+            color: #f5ebe0;
+        }
+        .top-bar .game-title {
+            font-size: 26px;
+            text-shadow: 2px 2px 0px #000;
+            letter-spacing: 1px;
+        }
+
+        .section {
+            min-height: 100vh;
+            padding-top: 110px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .frame {
+            width: 100%;
+            max-width: 1200px; /* Em vez de 1982px fixos, usamos um limite seguro */
+            padding: 60px;
+            background-color: #e6d5b8; /* Cor de pergaminho sólido */
+            background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png'); /* Textura de papel antigo */
+            border: 15px ridge #5d4037; /* Moldura de madeira esculpida */
+            border-radius: 5px;
+            display: flex;
+            position: relative;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            max-width: 1100px;
+            padding: 20px;
+            }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 560px;
+        }
+
+        .branding {
+            color: #5d4037;
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        h1 {
+            color: #2b1d0e;
+            font-size: 80px;
+            font-weight: 600;
+            line-height: 90px;
+            margin: 0;
+            text-shadow: 2px 2px 0px #d4b996;
+        }
+
+        .description {
+            color: #4e342e;
+            font-size: 17px;
+            font-weight: 400;
+            line-height: 27px;
+        }
+
+        h2, h3, h4 {
+            margin: 0;
+            font-weight: 600;
+            color: #2b1d0e;
+        }
+
+        input[type="radio"] {
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+        }
+
+        .difficulty-option {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            padding: 15px 25px;
+            border-radius: 4px;
+            background: #8d6e63; /* Madeira rústica */
+            border: 2px solid #3e2723;
+            transition: all 0.3s ease;
+            width: 100%;
+            color: #f5ebe0;
+        }
+
+        .difficulty-option:hover {
+            background: #a1887f;
+            border-color: #dcb35c; /* Destaque em ouro */
+            transform: translateX(10px);
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 40px;
+            width: 300px;
+            height: 90px; 
+            background-image: url('play.png');
+            background-size: 200% 300%; /* 2 colunas e 3 linhas */
+            background-position: 100% 54%; /* Foco no botão de madeira (meio) */
+            background-color: transparent; /* Remove cor de fundo padrão do botão */
+            background-repeat: no-repeat;
+            text-decoration: none;
+            text-indent: -9999px; /* Esconde o texto "VER PROJETOS" pois a imagem já tem texto */
+            transition: transform 0.2s ease;
+            border: none;
+            cursor: pointer;
+            mix-blend-mode: multiply; /* Remove o fundo branco da imagem do botão */
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 10px #dcb35c); /* Brilho dourado/fogo */
+        }
+
+        .info-card {
+            background: #dcb35c; /* Papel selado/Ouro */
+            border: 2px dashed #5d4037;
+            padding: 30px;
+            border-radius: 0;
+            flex: 1;
+            max-width: 400px;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        .info-card ul {
+            padding-left: 20px;
+            line-height: 1.8;
+        }
+
+        .footer {
+            padding: 40px;
+            text-align: center;
+            background: #1a120b;
+            color: #d4b996;
+            font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        #game-screen {
+            display: none; /* Escondido por padrão */
+        }
+
+        .flag-img {
+            width: 300px;
+            height: auto;
+            border: 5px solid #3e2723;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+        }
+
+        .guess-input {
+            padding: 15px;
+            font-family: 'MedievalSharp', cursive;
+            font-size: 20px;
+            border: 2px solid #5d4037;
+            background: #f5ebe0;
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
+        }
+
+        /* Estilos para a Placa de Taberna Suspensa */
+        .tavern-sign {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: swing 4s ease-in-out infinite alternate;
+            transform-origin: top center;
+            margin-top: 60px;
+        }
+
+        .chains {
+            display: flex;
+            gap: 240px;
+            position: absolute;
+            top: -130px;
+        }
+
+        .chain-link {
+            width: 14px;
+            height: 140px;
+            background: linear-gradient(to right, #1a1a1a, #444, #1a1a1a);
+            border-radius: 4px;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.6);
+        }
+
+        .wood-plate {
+            background-color: #5d4037;
+            background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+            border: 12px solid #3e2723;
+            padding: 50px 80px;
+            border-radius: 4px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8), inset 0 0 60px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        @keyframes swing {
+            0% { transform: rotate(-1.5deg); }
+            100% { transform: rotate(1.5deg); }
+        }
+
+        .logo-top {
+            max-height: 90px;
+            width: auto;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            width: 100%;
+            max-width: 600px;
+            margin-top: 20px;
+        }
+
+        .option-btn {
+            padding: 15px;
+            font-family: 'MedievalSharp', cursive;
+            font-size: 18px;
+            background: #8d6e63;
+            color: #f5ebe0;
+            border: 2px solid #3e2723;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover {
+            background: #a1887f;
+            border-color: #dcb35c;
+            transform: scale(1.02);
+        }
+
+        /* Efeito de tremer para erro */
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+            100% { transform: translateX(0); }
+        }
+        .shake {
+            animation: shake 0.4s ease-in-out;
+        }
+
+        /* Estilos do Ranking */
+        .leaderboard-section {
+            background-color: #1a120b;
+            padding: 80px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .leaderboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .scroll-rank {
+            background: #e6d5b8 url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+            border: 10px ridge #5d4037;
+            padding: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            transform: rotate(-1.5deg);
+            transition: all 0.3s ease;
+        }
+
+        .scroll-rank:hover {
+            transform: rotate(0deg) scale(1.05);
+            box-shadow: 0 15px 30px rgba(220, 179, 92, 0.4);
+            z-index: 10;
+        }
+
+        .scroll-rank:nth-child(even) { transform: rotate(1.5deg); }
+        .scroll-rank h3 { text-align: center; border-bottom: 2px solid #5d4037; padding-bottom: 10px; margin-bottom: 15px; }
+
+        .rank-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .rank-row-1 { color: #b8860b; font-size: 22px; text-shadow: 1px 1px 0 #000; } /* Gold */
+        .rank-row-2 { color: #7a7a7a; font-size: 20px; } /* Silver */
+        .rank-row-3 { color: #8b4513; font-size: 19px; } /* Bronze */
+        
+        .rank-table td { 
+            padding: 12px 8px; 
+            border-bottom: 1px dashed rgba(93, 64, 55, 0.3); 
+        }
+        .rank-table td { padding: 10px 5px; border-bottom: 1px dashed #5d4037; }
+        .rank-table tr:last-child td { border: none; }
+
+    </style>
+</head>
+<body>
+    <nav class="top-bar">
+        <div class="top-bar-content">
+            <div class="game-title">
+                <a href="index.html" class="logo-wrapper">
+                    <img src="lobstersemfundo.png" alt="Logo" class="logo-top">
+                </a>
+            </div>
+            
+            <!-- Área de Login -->
+            <div id="login-container">
+                <div id="login-area" class="login-form">
+                    <input type="text" id="user-input" class="login-input" placeholder="Usuário">
+                    <input type="password" id="pass-input" class="login-input" placeholder="Senha">
+                    <button id="btn-login" class="login-btn">ENTRAR</button>
+                    <button id="btn-register" class="login-btn" style="background: #8d6e63; color: white;">CADASTRAR</button>
+                </div>
+                <div id="user-area" style="display: none; align-items: center; gap: 15px;">
+                    <span>Nobre, <span id="logged-username" style="color: #dcb35c;"></span></span>
+                    <button onclick="handleLogout()" class="login-btn" style="background: #ff5252; color: white;">SAIR</button>
+                </div>
+            </div>
+
+            <div style="font-size: 20px;">
+                <span>🏆 Melhor Pontuação: <span id="best-score-display" style="color: #dcb35c;">0</span></span>
+            </div>
+        </div>
+    </nav>
+
+    <section class="section" id="welcome-screen">
+        <div class="frame">
+            <div class="container">
+                <div class="tavern-sign">
+                    <div class="chains">
+                        <div class="chain-link"></div>
+                        <div class="chain-link"></div>
+                    </div>
+                    <div class="wood-plate">
+                        <div class="branding" style="color: #dcb35c;">BEM VINDO</div>
+                        <h1 style="color: #f5ebe0; text-shadow: 4px 4px 0px #1a120b; font-size: 70px;">ADVINHE O PAÍS</h1>
+                        <p class="description" style="color: #e6d5b8; font-size: 22px;">tudo começa por aqui</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="setup-screen">
+        <div class="frame" style="align-items: flex-start; gap: 60px;">
+            <div style="display: flex; flex-direction: column; gap: 20px; flex: 1;">
+                <div class="container" style="justify-content: flex-start; width: 100%; padding: 0;">
+                    <form id="difficulty-form" class="content" style="align-items: flex-start; text-align: left; gap: 15px; font-weight: 600; font-size: 24px; max-width: 100%;">
+                        <h2>Selecione a dificuldade</h2>
+                        <label class="difficulty-option">
+                            <input type="radio" name="dificuldade" value="3" checked>
+                            <span>⭐⭐⭐ 3 Estrelas</span>
+                        </label>
+                        <label class="difficulty-option">
+                            <input type="radio" name="dificuldade" value="4">
+                            <span>⭐⭐⭐⭐ 4 Estrelas</span>
+                        </label>
+                        <label class="difficulty-option">
+                            <input type="radio" name="dificuldade" value="5">
+                            <span>⭐⭐⭐⭐⭐ 5 Estrelas</span>
+                        </label>
+                    </form>
+                </div>
+                <button id="btn-play" class="btn">JOGAR</button>
+            </div>
+
+            <div class="info-card">
+                <h3>📜 Como jogar?</h3>
+                <ul>
+                    <li>Escolha o nível de desafio.</li>
+                    <li>Adivinhe o país pela bandeira ou capital.</li>
+                    <li>Acumule pontos e bata recordes!</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="leaderboard-section">
+        <h2 style="color: #dcb35c; font-size: 45px; margin-bottom: 40px; text-shadow: 2px 2px #000;">🏆 QUADROS DE HONRA</h2>
+        <div class="leaderboard-grid" id="leaderboard-container">
+            <!-- As tabelas de dificuldade serão geradas aqui -->
+            <div class="scroll-rank" id="rank-3"><h3>⭐⭐⭐ FÁCIL</h3><table class="rank-table"></table></div>
+            <div class="scroll-rank" id="rank-4"><h3>⭐⭐⭐⭐ MÉDIO</h3><table class="rank-table"></table></div>
+            <div class="scroll-rank" id="rank-5"><h3>⭐⭐⭐⭐⭐ IMPOSSÍVEL</h3><table class="rank-table"></table></div>
+        </div>
+        
+        <div style="margin-top: 50px; color: #d4b996; font-style: italic; font-size: 18px;">
+            Role para cima para desafiar os mestres...
+            <div style="font-size: 30px; margin-top: 10px;">↑</div>
+        </div>
+    </section>
+
+    <section class="section" id="game-screen">
+        <div class="frame">
+            <div class="container" style="flex-direction: column; text-align: center;">
+                <!-- Novo Painel de Status Interno -->
+                <div style="display: flex; justify-content: space-around; width: 100%; margin-bottom: 20px; padding: 10px; background: rgba(0,0,0,0.05); border-radius: 10px; border: 2px solid #5d4037;">
+                    <span style="font-size: 24px;">❤️ <span id="lives-count" style="color: #ff5252;">3</span></span>
+                    <span style="font-size: 24px;">⏱️ <span id="timer-display" style="color: #5d4037;">70</span>s</span>
+                    <span style="font-size: 24px;">🏆 <span id="score-display" style="color: #2b1d0e;">0</span></span>
+                </div>
+                
+                <h2 id="feedback" style="margin-bottom: 20px; min-height: 30px;">Qual é este país?</h2>
+                <div id="flag-container">
+                    <!-- A bandeira aparecerá aqui -->
+                </div>
+                <div id="options-container" class="options-grid">
+                    <!-- As opções aparecerão aqui -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© 2026 Advinhe o País. Todos os direitos reservados.</p>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, where, orderBy, limit, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // --- CONFIGURAÇÃO DO FIREBASE ---
+        // Use os dados do seu projeto no Firebase Console.
+        const firebaseConfig = {
+            apiKey: "AIzaSyDiNU1LiZ0Pl6j1Ec006rZ8_gEvk5r3v04",
+            authDomain: "lobster-montain.firebaseapp.com",
+            projectId: "lobster-montain",
+            storageBucket: "lobster-montain.firebasestorage.app",
+            messagingSenderId: "384318355796",
+            appId: "1:384318355796:web:572ba1add8f8030104b0c1",
+            measurementId: "G-9Y9T7T0TFG"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let countries = [];
+        let currentCountry = null;
+        let score = 0;
+        let bestScore = Number(localStorage.getItem('bestScore')) || 0;
+        let currentUser = null;
+        let currentDifficulty = 3;
+        let lives = 3;
+        let timeLeft = 70;
+        let timer;
+
+        const btnPlay = document.getElementById('btn-play');
+        btnPlay.style.opacity = "0.5"; // Começa meio apagado até carregar
+
+        // Função auxiliar para garantir que sempre teremos um nome visível
+        function getCountryName(country) {
+            return country.translations?.por?.common || 
+                   country.name?.common || 
+                   country.name?.official || 
+                   "Território Desconhecido";
+        }
+
+        // Carregar dados dos países ao iniciar
+        fetch('https://restcountries.com/v3.1/all?fields=name,flags,translations,population')
+            .then(res => res.json())
+            .then(data => {
+                // Filtra apenas países que possuem bandeira e pelo menos um nome comum
+                countries = data.filter(c => c.flags?.svg && (c.name?.common || c.translations?.por?.common || c.population !== undefined));
+                btnPlay.style.opacity = "1"; // Ativa visualmente quando pronto
+                console.log("Dados carregados: " + countries.length + " países prontos.");
+            })
+            .catch(err => {
+                console.error("Erro ao carregar países:", err);
+                feedback.textContent = "Erro ao carregar dados. Verifique sua conexão.";
+                feedback.style.color = "#c62828";
+            });
+
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const setupScreen = document.getElementById('setup-screen');
+        const gameScreen = document.getElementById('game-screen');
+        const flagContainer = document.getElementById('flag-container');
+        const optionsContainer = document.getElementById('options-container');
+        const feedback = document.getElementById('feedback');
+        const livesDisplay = document.getElementById('lives-count');
+        const timerDisplay = document.getElementById('timer-display');
+        const scoreDisplay = document.getElementById('score-display');
+        const bestScoreDisplay = document.getElementById('best-score-display');
+
+        // Inicializa a exibição da melhor pontuação salva
+        bestScoreDisplay.textContent = bestScore;
+
+        // Função auxiliar para transformar usuário em "e-mail" para o Firebase
+        function formatEmail(user) {
+            return user.includes('@') ? user : `${user.toLowerCase().replace(/\s/g, '')}@lobster.com`;
+        }
+
+        // Observador de Estado do Firebase Auth
+        onAuthStateChanged(auth, (user) => {
+            const loginArea = document.getElementById('login-area');
+            const userArea = document.getElementById('user-area');
+            if (user) {
+                currentUser = user.displayName || user.email;
+                loginArea.style.display = 'none';
+                userArea.style.display = 'flex';
+                document.getElementById('logged-username').textContent = currentUser;
+            } else {
+                currentUser = null;
+                loginArea.style.display = 'flex';
+                userArea.style.display = 'none';
+            }
+        });
+
+        // Funções de Autenticação
+        window.handleLogin = async () => {
+            const user = document.getElementById('user-input').value.trim();
+            const pass = document.getElementById('pass-input').value;
+            if(!user || !pass) return alert("Preencha usuário e senha!");
+            try { 
+                await signInWithEmailAndPassword(auth, formatEmail(user), pass);
+                console.log("Login realizado com sucesso!");
+            }
+            catch (e) { alert("Erro ao entrar: " + e.message); }
+        };
+
+        window.handleSignUp = async () => {
+            const user = document.getElementById('user-input').value.trim();
+            const pass = document.getElementById('pass-input').value;
+            if(!user || !pass) return alert("Preencha usuário e senha!");
+            
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, formatEmail(user), pass);
+                await updateProfile(userCredential.user, { displayName: user });
+            } catch (e) { alert("Erro ao cadastrar: " + e.message); }
+        };
+
+        window.handleLogout = () => signOut(auth);
+        document.getElementById('btn-login').onclick = window.handleLogin;
+        document.getElementById('btn-register').onclick = window.handleSignUp;
+
+        btnPlay.addEventListener('click', () => {
+            if (countries.length === 0) {
+                alert("Aguarde um instante, os mapas ainda estão sendo carregados...");
+                return;
+            }
+            
+            if (!auth.currentUser) {
+                alert("Você precisa entrar com seu usuário no topo para que seus feitos sejam lembrados no Global!");
+                return;
+            }
+            
+            // Captura a dificuldade selecionada
+            const selectedDiff = document.querySelector('input[name="dificuldade"]:checked');
+            currentDifficulty = selectedDiff ? parseInt(selectedDiff.value) : 3;
+
+            welcomeScreen.style.display = 'none';
+            setupScreen.style.display = 'none';
+            gameScreen.style.display = 'flex';
+            resetGame();
+            startTimer(); // Inicia o cronômetro uma única vez ao começar o jogo
+            nextQuestion();
+        });
+
+        // Ranking Global em Tempo Real (Firebase)
+        function listenToRankings() {
+            [3, 4, 5].forEach(diff => {
+                const q = query(collection(db, "rankings"), where("difficulty", "==", diff), orderBy("score", "desc"), limit(5));
+                onSnapshot(q, (snapshot) => {
+                    const table = document.querySelector(`#rank-${diff} .rank-table`);
+                    const data = snapshot.docs.map(doc => doc.data());
+                    if (data.length === 0) {
+                        table.innerHTML = `<tr><td colspan="3" style="text-align:center; padding: 20px; font-style: italic;">Nenhum herói ainda...</td></tr>`;
+                        return;
+                    }
+                    table.innerHTML = data.map((item, index) => {
+                        const rankClass = index < 3 ? `rank-row-${index + 1}` : '';
+                        const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `${index + 1}º`;
+                        return `<tr class="${rankClass}"><td style="width: 45px; font-weight: bold;">${medal}</td><td style="text-align: left;">${item.name}</td><td style="text-align: right; color: #5d4037; font-weight: bold;">${item.score} pts</td></tr>`;
+                    }).join('');
+                });
+            });
+        }
+        listenToRankings();
+
+        async function saveToGlobalRankings(score) {
+            if (score > 0 && currentUser) {
+                try {
+                    await addDoc(collection(db, "rankings"), {
+                        name: currentUser,
+                        score: score,
+                        difficulty: currentDifficulty,
+                        timestamp: new Date()
+                    });
+                } catch (e) { console.error("Erro ao salvar: ", e); }
+            }
+        }
+
+        function resetGame() {
+            score = 0;
+            lives = 3;
+            scoreDisplay.textContent = score;
+            livesDisplay.textContent = lives;
+        }
+
+        function startTimer() {
+            clearInterval(timer);
+            timeLeft = 70;
+            timerDisplay.textContent = timeLeft;
+            
+            timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.textContent = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    handleWrongAnswer("Tempo esgotado!");
+                }
+            }, 1000);
+        }
+
+        function nextQuestion() {
+            if (lives <= 0) return;
+            
+            feedback.textContent = "Qual é este país?";
+            feedback.style.color = "#2b1d0e";
+            optionsContainer.innerHTML = '';
+
+            // Lista manual de países "Super Famosos" para o nível Fácil
+            const superFamous = [
+                "Brazil", "United States", "France", "Germany", "United Kingdom", "Portugal", 
+                "Spain", "Italy", "Argentina", "Japan", "China", "Canada", "Mexico", 
+                "Australia", "Russia", "India", "South Africa", "Egypt", "South Korea", 
+                "Switzerland", "Uruguay", "Netherlands", "Greece", "Israel", "Colombia", 
+                "Chile", "Belgium", "Sweden", "Turkey", "Paraguay"
+            ];
+
+            let pool = [];
+            if (currentDifficulty === 3) {
+                // Fácil: Países na lista de famosos OU população gigantesca (> 100M)
+                pool = countries.filter(c => superFamous.includes(c.name.common) || c.population > 100000000);
+            } else if (currentDifficulty === 4) {
+                // Médio: Países médios que não estão na lista de famosos (ex: Sri Lanka, Zâmbia, Romênia)
+                pool = countries.filter(c => !superFamous.includes(c.name.common) && c.population > 8000000 && c.population <= 100000000);
+            } else {
+                // Impossível: Países e territórios pequenos e pouco conhecidos (ex: Tuvalu, Niue, Micronésia)
+                pool = countries.filter(c => !superFamous.includes(c.name.common) && c.population <= 8000000);
+            }
+
+            // Segurança: Se o pool filtrado for muito pequeno, usa a lista total para não travar
+            if (pool.length < currentDifficulty) pool = countries;
+
+            currentCountry = pool[Math.floor(Math.random() * pool.length)];
+            
+            // Criar opções vindo apenas do mesmo nível de dificuldade para ser justo
+            let options = [currentCountry];
+            while (options.length < currentDifficulty) {
+                let randomBtn = pool[Math.floor(Math.random() * pool.length)];
+                if (!options.find(c => c.name.common === randomBtn.name.common)) {
+                    options.push(randomBtn);
+                }
+            }
+
+            // Embaralhar as opções para a correta não ser sempre a primeira
+            options.sort(() => Math.random() - 0.5);
+
+            flagContainer.innerHTML = `<img src="${currentCountry.flags.svg}" class="flag-img" alt="Bandeira">`;
+
+            options.forEach(country => {
+                const name = getCountryName(country);
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = name;
+                btn.onclick = () => checkAnswer(name);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedName) {
+            const correctName = getCountryName(currentCountry);
+
+            if (selectedName === correctName) {
+                feedback.textContent = "✨ CORRETO! 🏰";
+                feedback.style.color = "#2e7d32";
+                score++;
+                scoreDisplay.textContent = score;
+
+                // Lógica de Melhor Pontuação
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestScoreDisplay.textContent = bestScore;
+                    localStorage.setItem('bestScore', bestScore);
+                }
+                
+                // Desativa botões para evitar cliques extras durante a transição
+                document.querySelectorAll('.option-btn').forEach(b => b.style.pointerEvents = 'none');
+                
+                setTimeout(nextQuestion, 100); // Próxima bandeira sem resetar o tempo
+            } else {
+                handleWrongAnswer();
+            }
+        }
+
+        function handleWrongAnswer(customMessage) {
+            lives--;
+            livesDisplay.textContent = lives;
+            feedback.textContent = customMessage || "❌ Resposta errada!";
+            feedback.style.color = "#c62828";
+            
+            gameScreen.classList.add('shake');
+            setTimeout(() => gameScreen.classList.remove('shake'), 500);
+
+            if (lives <= 0) {
+                clearInterval(timer);
+                saveToGlobalRankings(score);
+                feedback.textContent = "💀 GAME OVER! Pontos: " + score;
+                setTimeout(() => location.reload(), 3000);
+            } else {
+                document.querySelectorAll('.option-btn').forEach(b => b.style.pointerEvents = 'none');
+                setTimeout(nextQuestion, 400); // Um pouco mais para o erro para dar tempo do "shake" aparecer
+            }
+        }
+    </script>
+</body>
+</html>
